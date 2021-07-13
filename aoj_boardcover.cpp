@@ -4,9 +4,9 @@
 #include <array>
 using namespace std;
 
-int C; // tc °³¼ö
-int H, W; // °¡·Î x ¼¼·Î
-int cnt; // ´ä °³¼ö
+int C; // tc ê°œìˆ˜
+int H, W; // ê°€ë¡œ x ì„¸ë¡œ
+int cnt; // ë‹µ ê°œìˆ˜
 
 array<array<int, 21>, 21> board;
 array<int, 4 > drow1 = { +1, +1, 0,  0 };
@@ -18,7 +18,7 @@ void input() {
     cin >> H >> W;
     for (int i = 1; i <= 20; i++) {
         for (int j = 1; j <= 20; j++) {
-            board[i][j] = 0; // ¸ðµç Ä­À» 0À¸·Î ÃÊ±âÈ­
+            board[i][j] = 0; // ëª¨ë“  ì¹¸ì„ 0ìœ¼ë¡œ ì´ˆê¸°í™”
         }
     }
     for (int i = 1; i <= H; i++) {
@@ -27,10 +27,10 @@ void input() {
             cin >> c;
             switch (c) {
             case '#':
-                board[i][j] = -1; // ¸øÃ¤¿ì´Â Ä­
+                board[i][j] = -1; // ëª»ì±„ìš°ëŠ” ì¹¸
                 break;
             case '.':
-                board[i][j] = 1; // Ã¤¿ï ¼ö ÀÖ´Â Ä­
+                board[i][j] = 1; // ì±„ìš¸ ìˆ˜ ìžˆëŠ” ì¹¸
                 break;
             }
         }
@@ -55,31 +55,31 @@ bool all_full() {
     for (int i = 1; i <= H; i++) {
         for (int j = 1; j <= W; j++) {
             if (board[i][j] == 1) {
-                return false; // Ã¤¿öÁöÁö ¾ÊÀº Ä­ÀÌ ÇÏ³ª¶óµµ Á¸Àç
+                return false; // ì±„ì›Œì§€ì§€ ì•Šì€ ì¹¸ì´ í•˜ë‚˜ë¼ë„ ì¡´ìž¬
             }
         }
     }
-    return true; // ¸ðµç Ä­ÀÌ ´Ù Ã¤¿öÁø °æ¿ì
+    return true; // ëª¨ë“  ì¹¸ì´ ë‹¤ ì±„ì›Œì§„ ê²½ìš°
 }
 
-void solve() { // ½ÃÀÛÀ§Ä¡        4r
+void solve() {
     for (int i = 1; i <= H; i++) {
         for (int j = 1; j <= W; j++) {
-            if (board[i][j] == 1) { // ºóÄ­ÀÎ °æ¿ì                
-                for (int k = 0; k < 4; k++) { // 4°¡Áö °æ¿ì °Ë»ç
-                    if (can_fill(i, j, k)) { // Ã¤¿ï ¼ö ÀÖÀ¸¸é          
+            if (board[i][j] == 1) { // ë¹ˆì¹¸ì¸ ê²½ìš°                
+                for (int k = 0; k < 4; k++) { // 4ê°€ì§€ ê²½ìš° ê²€ì‚¬
+                    if (can_fill(i, j, k)) { // ì±„ìš¸ ìˆ˜ ìžˆìœ¼ë©´          
 
                         board[i][j] = -1;
                         board[i + drow1[k]][j + dcol1[k]] = -1;
                         board[i + drow2[k]][j + dcol2[k]] = -1;
-                        // º¸µå Ã¤¿ì±â                        
+                        // ë³´ë“œ ì±„ìš°ê¸°                        
 
                         if (all_full()) {
                             cnt++;
-                        } // °¡µæÃ¡´ÂÁö °Ë»ç
+                        } // ê°€ë“ì°¼ëŠ”ì§€ ê²€ì‚¬
                         else {
                             solve();
-                        } // °¡µæ ¾ÈÃ¡À¸¸é Àç±Í
+                        } // ê°€ë“ ì•ˆì°¼ìœ¼ë©´ ìž¬ê·€
                         board[i][j] = 1;
                         board[i + drow1[k]][j + dcol1[k]] = 1;
                         board[i + drow2[k]][j + dcol2[k]] = 1;
