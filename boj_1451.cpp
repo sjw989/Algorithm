@@ -11,13 +11,13 @@ int get_sum(int start_n, int end_n, int start_m, int end_m) {
 		for (int j = start_m; j <= end_m; j++) {
 			sum += input[i][j];
 		}
-	} // ½ÃÀÛ Çà ~ ³¡ Çà + ½ÃÀÛ ¿­ ~ ³¡ ¿­
+	} // ì‹œì‘ í–‰ ~ ë í–‰ + ì‹œì‘ ì—´ ~ ë ì—´
 	return sum;
 }
 
 int main() {
-	int n, m; // n : Çà , m : ¿­
-	cin >> n >> m; // Çà°ú ¿­ ÀÔ·Â
+	int n, m; // n : í–‰ , m : ì—´
+	cin >> n >> m; // í–‰ê³¼ ì—´ ì…ë ¥
 		
 	// start input
 	for (int i = 0; i < n; i++) {
@@ -30,10 +30,10 @@ int main() {
 	} // end of input
 	
 	long long best = 0; // result
-	long long multi = 0; // ¼¼ Á÷»ç°¢ÇüÀÇ °ö
+	long long multi = 0; // ì„¸ ì§ì‚¬ê°í˜•ì˜ ê³±
 
-	// case 1 --> À§¿¡¼­ ¾Æ·¡·Î ³ª¶õÈ÷ ¼¼ °³
-	for (int i = 0; i < n - 2; i++) { // Ã¹ ¹øÂ° Á÷»ç°¢ÇüÀÌ ÅÃÇÒ ¼ö ÀÖ´Â ÃÖ´ë Çà ¼ö
+	// case 1 --> ìœ„ì—ì„œ ì•„ë˜ë¡œ ë‚˜ë€íˆ ì„¸ ê°œ
+	for (int i = 0; i < n - 2; i++) { // ì²« ë²ˆì§¸ ì§ì‚¬ê°í˜•ì´ íƒí•  ìˆ˜ ìˆëŠ” ìµœëŒ€ í–‰ ìˆ˜
 		for (int j = i+1; j < n - 1; j++) {
 			long long rect1_sum = get_sum(0, i, 0, m-1);
 			long long rect2_sum = get_sum(i + 1, j, 0, m-1);
@@ -42,8 +42,8 @@ int main() {
 			best = max(multi, best);
 		}
 	}
-	// case 2 --> ¿ŞÂÊ¿¡¼­ ¿À¸¥ÂÊÀ¸·Î ³ª¶õÈ÷ ¼¼ °³
-	for (int i = 0; i < m - 2; i++) { // Ã¹ ¹øÂ° Á÷»ç°¢ÇüÀÌ ÅÃÇÒ ¼ö ÀÖ´Â ÃÖ´ë Çà ¼ö
+	// case 2 --> ì™¼ìª½ì—ì„œ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ë‚˜ë€íˆ ì„¸ ê°œ
+	for (int i = 0; i < m - 2; i++) { // ì²« ë²ˆì§¸ ì§ì‚¬ê°í˜•ì´ íƒí•  ìˆ˜ ìˆëŠ” ìµœëŒ€ í–‰ ìˆ˜
 		for (int j = i + 1; j < m - 1; j++) {
 			long long rect1_sum = get_sum(0, n - 1, 0, i);
 			long long rect2_sum = get_sum(0, n - 1, i+1, j);
@@ -52,8 +52,8 @@ int main() {
 			best = max(multi, best);
 		}
 	}
-	// --> ¿À¸£ÂÊ ¾Æ·¡À§·Î ¸ğÅüÀÌ Æ÷ÇÔ
-	// case 3 --> ¿ŞÂÊ ¾Æ·¡·Î ÂŞ¿í, ¿À¸¥ÂÊ ¾Æ·¡À§·Î µÎ °³
+	// --> ì˜¤ë¥´ìª½ ì•„ë˜ìœ„ë¡œ ëª¨í‰ì´ í¬í•¨
+	// case 3 --> ì™¼ìª½ ì•„ë˜ë¡œ ì­ˆìš±, ì˜¤ë¥¸ìª½ ì•„ë˜ìœ„ë¡œ ë‘ ê°œ
 	for (int i = 0; i < m - 1; i++) {
 		for (int j = 0; j < n - 1; j++) {
 			long long rect1_sum = get_sum(0, n - 1, 0, i);
@@ -64,8 +64,8 @@ int main() {
 		}
 	}
 	// cout << rect1_sum << " " << rect2_sum << " " << rect3_sum << " " << endl;
-	// --> ¿ŞÂÊ ¾Æ·¡À§·Î ¸ğÅüÀÌ Æ÷ÇÔ
-	// case 4 --> ¿À¸¥ÂÊ ¾Æ·¡·Î ÂŞ¿í, ¿ŞÂÊ ¾Æ·¡À§·Î µÎ °³
+	// --> ì™¼ìª½ ì•„ë˜ìœ„ë¡œ ëª¨í‰ì´ í¬í•¨
+	// case 4 --> ì˜¤ë¥¸ìª½ ì•„ë˜ë¡œ ì­ˆìš±, ì™¼ìª½ ì•„ë˜ìœ„ë¡œ ë‘ ê°œ
 	for (int i = m-1; i > 0; i--) {
 		for (int j = 0; j < n - 1; j++) {
 			long long rect1_sum = get_sum(0, n - 1, i, m - 1);
@@ -75,7 +75,7 @@ int main() {
 			best = max(multi, best);
 		}
 	}
-	// case 5 --> À§¿¡ ¿ŞÂÊ¿¡¼­ ¿À¸¥ÂÊ¿ì·Î ÂŞ¿í, ¹Ø¿¡ ÁÂ¿ì·Î µÎ °³
+	// case 5 --> ìœ„ì— ì™¼ìª½ì—ì„œ ì˜¤ë¥¸ìª½ìš°ë¡œ ì­ˆìš±, ë°‘ì— ì¢Œìš°ë¡œ ë‘ ê°œ
 	for (int i = 0; i < n - 1 ; i++) {
 		for (int j = 0; j < m-1; j++) {
 			long long rect1_sum = get_sum(0, i, 0, m - 1);
@@ -85,7 +85,7 @@ int main() {
 			best = max(multi, best);
 		}
 	}
-	// case 6 --> ¹Ø¿¡ ¿ŞÂÊ¿¡¼­ ¿À¸¥ÂÊ¿ì·Î ÂŞ¿í, À§¿¡ ÁÂ¿ì·Î µÎ °³
+	// case 6 --> ë°‘ì— ì™¼ìª½ì—ì„œ ì˜¤ë¥¸ìª½ìš°ë¡œ ì­ˆìš±, ìœ„ì— ì¢Œìš°ë¡œ ë‘ ê°œ
 	for (int i = n-1; i > 0; i--) {
 		for (int j = 0; j < m - 1; j++) {
 			long long rect1_sum = get_sum(i, n - 1 , 0, m - 1);
