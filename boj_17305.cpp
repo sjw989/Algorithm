@@ -4,8 +4,8 @@
 #include <algorithm>
 using namespace std;
 
-int N; // ÀüÃ¼ »çÅÁ ¼ö
-int w; // ¹«°Ô Á¦ÇÑ
+int N; // ì „ì²´ ì‚¬íƒ• ìˆ˜
+int w; // ë¬´ê²Œ ì œí•œ
 
 bool compare(array<long long, 2> c1, array<long long, 2> c2) {
 	return c1[1] > c2[1];
@@ -25,7 +25,7 @@ int main() {
 		all_candy.push_back(candy);
 	} // end of input
 	sort(all_candy.begin(), all_candy.end(), compare);
-	// ³»¸²Â÷¼øÀ¸·Î Á¤·Ä
+	// ë‚´ë¦¼ì°¨ìˆœìœ¼ë¡œ ì •ë ¬
 	vector<array<long long,2>> sum_3;
 	vector<array<long long, 2>> sum_5;
 
@@ -43,24 +43,24 @@ int main() {
 				i[1] += sum_5.back()[1];
 				sum_5.push_back(i);
 		}
-	} // ´©ÀûÇÕ ±¸ÇÏ´Â ÄÚµå
+	} // ëˆ„ì í•© êµ¬í•˜ëŠ” ì½”ë“œ
 	
-	int max_5 = w / 5; // ¹«°Ô 5ÀÎ »çÅÁÀÇ ÃÖ´ë °³¼ö
+	int max_5 = w / 5; // ë¬´ê²Œ 5ì¸ ì‚¬íƒ•ì˜ ìµœëŒ€ ê°œìˆ˜
 	int size_5 = sum_5.size() -1;
 	int size_3 = sum_3.size() -1;
 
 	long long result = 0;
 	/*
-		min (max_5, size)¸¦ ÇÏ´Â ÀÌÀ¯´Â ¸¸¾à¿¡ 5g »çÅÁÀÌ 5°³ ¹Û¿¡ ¾ø´Âµ¥
-		°¡¹æ¿ë·®ÀÌ 30gÀÌ¸é 30/5=6À¸·Î Àß¸øÁ¢±ÙÇÒ ¼ö ÀÖÀ½
-		min (num_3, size)¸¦ ÇÏ´Â ÀÌÀ¯µµ µ¿ÀÏ
+		min (max_5, size)ë¥¼ í•˜ëŠ” ì´ìœ ëŠ” ë§Œì•½ì— 5g ì‚¬íƒ•ì´ 5ê°œ ë°–ì— ì—†ëŠ”ë°
+		ê°€ë°©ìš©ëŸ‰ì´ 30gì´ë©´ 30/5=6ìœ¼ë¡œ ì˜ëª»ì ‘ê·¼í•  ìˆ˜ ìˆìŒ
+		min (num_3, size)ë¥¼ í•˜ëŠ” ì´ìœ ë„ ë™ì¼
 	*/
 	for (int i = 0; i <= min(max_5,size_5); i++) {
 		int max_3 = (w - sum_5[i][0]) / 3 ;
 		int num_3 = min(max_3, size_3);
 		result = max(result, sum_5[i][1] + sum_3[num_3][1]);
 	}
-	 // 5ÀÇ °³¼ö¸¦ ÇÏ³ª¾¿ ´Ã·Á°¡¸é¼­ ±×¿¡ µû¶ó 3ÀÇ °³¼öµµ ¹Ù²î°í
-	 // ±×°Å¿¡ ¸Â°Ô ´©ÀûÇÕ º¤ÅÍ¿¡¼­ ÀÎµ¦½º·Î ºÒ·¯¿È
+	 // 5ì˜ ê°œìˆ˜ë¥¼ í•˜ë‚˜ì”© ëŠ˜ë ¤ê°€ë©´ì„œ ê·¸ì— ë”°ë¼ 3ì˜ ê°œìˆ˜ë„ ë°”ë€Œê³ 
+	 // ê·¸ê±°ì— ë§ê²Œ ëˆ„ì í•© ë²¡í„°ì—ì„œ ì¸ë±ìŠ¤ë¡œ ë¶ˆëŸ¬ì˜´
 	cout << result << endl;
 }
