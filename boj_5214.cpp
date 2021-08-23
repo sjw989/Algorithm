@@ -5,7 +5,7 @@
 #include <algorithm>
 using namespace std;
 
-int N, K, M; // ¿ªÀÇ ¼ö, ÇÏÀÌÆÛÆ©ºê°¡ ¿¬°áÇÏ´Â ¿ªÀÇ °³¼ö, ÇÏÀÌÆÛÆ©ºê °³¼ö
+int N, K, M; // ì—­ì˜ ìˆ˜, í•˜ì´í¼íŠœë¸Œê°€ ì—°ê²°í•˜ëŠ” ì—­ì˜ ê°œìˆ˜, í•˜ì´í¼íŠœë¸Œ ê°œìˆ˜
 array<vector<int>,100000+1000+1> station; // MAX_N = 100,000 , MAX_M = 1000
 array<int, 100000 + 1000 + 1> visit;
 
@@ -20,7 +20,7 @@ int main() {
         }
     }    
     queue<int> node;
-    node.push(1); // Ãâ¹ß À§Ä¡    
+    node.push(1); // ì¶œë°œ ìœ„ì¹˜    
     visit[1] = 1;
 
     while (!node.empty()) {
