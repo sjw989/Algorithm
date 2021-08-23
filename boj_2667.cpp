@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <array>
 #include <vector>
 #include <string>
@@ -9,9 +8,9 @@
 using namespace std;
 
 
-int N; // Áöµµ Å©±â
-int ans; // ´ÜÁö ¼ö
-int cnt; // ´ÜÁö ³» ÁıÀÇ ¼ö
+int N; // ì§€ë„ í¬ê¸°
+int ans; // ë‹¨ì§€ ìˆ˜
+int cnt; // ë‹¨ì§€ ë‚´ ì§‘ì˜ ìˆ˜
 vector<int> result;
 array<array<char, 26>, 26> board;
 array<array<int, 26>, 26> visit;
@@ -30,44 +29,44 @@ void input() {
 
 
 void bfs(int row, int col) {
-	cnt = 0; // ´ÜÁö ³» ÁıÀÇ ¼ö ÃÊ±âÈ­
+	cnt = 0; // ë‹¨ì§€ ë‚´ ì§‘ì˜ ìˆ˜ ì´ˆê¸°í™”
 	queue<pii> q;
-	q.push(make_pair(row, col)); // ½ÃÀÛÁöÁ¡ q¿¡ Ãß°¡ 	
-	visit[row][col] = 1; // ½ÃÀÛÁöÁ¡ ¹æ¹®Ã³¸®
+	q.push(make_pair(row, col)); // ì‹œì‘ì§€ì  qì— ì¶”ê°€ 	
+	visit[row][col] = 1; // ì‹œì‘ì§€ì  ë°©ë¬¸ì²˜ë¦¬
 
 	while (!q.empty()) {		
 		pii start = q.front();		
 		q.pop();		
-		cnt++; // ´ÜÁö ³» Áı ¼ö ++		
+		cnt++; // ë‹¨ì§€ ë‚´ ì§‘ ìˆ˜ ++		
 		
-		if (start.first - 1 >= 1) { // À§ÂÊ °Ë»ç
+		if (start.first - 1 >= 1) { // ìœ„ìª½ ê²€ì‚¬
 			if (visit[start.first - 1][start.second] == 0 && board[start.first - 1][start.second] == '1') {
-				// ¹æ¹®ÇÑ Àû ¾ø°í && ÇØ´ç Ä­¿¡ °Ç¹°ÀÌ ÀÖÀ¸¸é
-				q.push(make_pair(start.first - 1, start.second)); // q¿¡ Ãß°¡
+				// ë°©ë¬¸í•œ ì  ì—†ê³  && í•´ë‹¹ ì¹¸ì— ê±´ë¬¼ì´ ìˆìœ¼ë©´
+				q.push(make_pair(start.first - 1, start.second)); // qì— ì¶”ê°€
 				visit[start.first - 1][start.second] = 1;
 			}
 		}
 		
-		if(start.first + 1 <= N) { // ¾Æ·¡ÂÊ °Ë»ç
+		if(start.first + 1 <= N) { // ì•„ë˜ìª½ ê²€ì‚¬
 			if (visit[start.first + 1][start.second] == 0 && board[start.first + 1][start.second] == '1'){
-				// ¹æ¹®ÇÑ Àû ¾ø°í && ÇØ´ç Ä­¿¡ °Ç¹°ÀÌ ÀÖÀ¸¸é
-				q.push(make_pair(start.first + 1, start.second)); // q¿¡ Ãß°¡
+				// ë°©ë¬¸í•œ ì  ì—†ê³  && í•´ë‹¹ ì¹¸ì— ê±´ë¬¼ì´ ìˆìœ¼ë©´
+				q.push(make_pair(start.first + 1, start.second)); // qì— ì¶”ê°€
 				visit[start.first + 1][start.second] = 1;
 			}
 		}
 
-		if (start.second -1  >= 1) { // ¿ŞÂÊ °Ë»ç
+		if (start.second -1  >= 1) { // ì™¼ìª½ ê²€ì‚¬
 			if (visit[start.first][start.second - 1] == 0 && board[start.first][start.second - 1] == '1') {
-				// ¹æ¹®ÇÑ Àû ¾ø°í && ÇØ´ç Ä­¿¡ °Ç¹°ÀÌ ÀÖÀ¸¸é
-				q.push(make_pair(start.first, start.second - 1)); // q¿¡ Ãß°¡
+				// ë°©ë¬¸í•œ ì  ì—†ê³  && í•´ë‹¹ ì¹¸ì— ê±´ë¬¼ì´ ìˆìœ¼ë©´
+				q.push(make_pair(start.first, start.second - 1)); // qì— ì¶”ê°€
 				visit[start.first ][start.second - 1] = 1;
 			}
 		}
 
-		if (start.second + 1 <= N) { // ¿À¸¥ÂÊ °Ë»ç
+		if (start.second + 1 <= N) { // ì˜¤ë¥¸ìª½ ê²€ì‚¬
 			if (visit[start.first][start.second + 1] == 0 && board[start.first][start.second + 1] == '1') {
-				// ¹æ¹®ÇÑ Àû ¾ø°í && ÇØ´ç Ä­¿¡ °Ç¹°ÀÌ ÀÖÀ¸¸é
-				q.push(make_pair(start.first, start.second + 1)); // q¿¡ Ãß°¡
+				// ë°©ë¬¸í•œ ì  ì—†ê³  && í•´ë‹¹ ì¹¸ì— ê±´ë¬¼ì´ ìˆìœ¼ë©´
+				q.push(make_pair(start.first, start.second + 1)); // qì— ì¶”ê°€
 				visit[start.first][start.second + 1] = 1;
 			}
 		}
@@ -77,9 +76,9 @@ void bfs(int row, int col) {
 void solve() {
 	for (int i = 1; i <= N; i++) {
 		for (int j = 1; j <= N; j++) { 
-			if (board[i][j] == '1' && visit[i][j] == 0) { // ¹æ¹®ÇÏÁö ¾ÊÀº Áı Ã£±â								
-				ans++; // ´ÜÁö ¼ö ++
-				bfs(i, j); // bfs·Î ´ÜÁö Å½»ö
+			if (board[i][j] == '1' && visit[i][j] == 0) { // ë°©ë¬¸í•˜ì§€ ì•Šì€ ì§‘ ì°¾ê¸°								
+				ans++; // ë‹¨ì§€ ìˆ˜ ++
+				bfs(i, j); // bfsë¡œ ë‹¨ì§€ íƒìƒ‰
 				result.push_back(cnt);				
 			}
 		}
