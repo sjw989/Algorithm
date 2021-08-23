@@ -2,11 +2,11 @@
 #include <array>
 using namespace std;
 
-int N, M, K; // ÇĞ»ı ¼ö, Ä£±¸°ü°è ¼ö , °¡Áö°íÀÖ´Â µ·
+int N, M, K; // í•™ìƒ ìˆ˜, ì¹œêµ¬ê´€ê³„ ìˆ˜ , ê°€ì§€ê³ ìˆëŠ” ëˆ
 array<int, 10001> student;
 array<int, 10001> cost;
 
-int find_parent(int node) { // ´ëÇ¥³ëµå Ã£±â
+int find_parent(int node) { // ëŒ€í‘œë…¸ë“œ ì°¾ê¸°
     if (student[node] == node) {
         return student[node];
     }
@@ -26,32 +26,32 @@ void union_parent(int node1, int node2) {
         student[parent1] = parent2;
         cost[parent1] = cost[parent2];
     }
-} // ´ëÇ¥³ëµå ÇÕÄ¡±â
+} // ëŒ€í‘œë…¸ë“œ í•©ì¹˜ê¸°
 
 int main() {
 
     cin >> N >> M >> K;
     for (int i = 1; i <= N; i++) {
         student[i] = i;
-    } // ÀÚ±â ÀÚ½ÅÀ» ´ëÇ¥³ëµå·Î °¡Áö´Â »óÈ£¹èÅ¸ÁıÇÕ
+    } // ìê¸° ìì‹ ì„ ëŒ€í‘œë…¸ë“œë¡œ ê°€ì§€ëŠ” ìƒí˜¸ë°°íƒ€ì§‘í•©
     for (int i = 1; i <= N; i++) {
         cin >> cost[i];
-    } // Ä£±¸ºñ¿ë ÀÔ·Â
+    } // ì¹œêµ¬ë¹„ìš© ì…ë ¥
     for (int i = 0; i < M; i++) {
         int node1, node2;
         cin >> node1 >> node2;
         union_parent(node1, node2);
-    } // Ä£±¸°ü°è ¸Î±â
+    } // ì¹œêµ¬ê´€ê³„ ë§ºê¸°
 
-    int b_young = 0; // Ä£±¸ºñ¿ë
+    int b_young = 0; // ì¹œêµ¬ë¹„ìš©
     for (int i = 1; i <= N; i++) {
         int parent = find_parent(i);
         if (cost[parent] != -1) {
             b_young += cost[parent];
             cost[parent] = -1;
         }
-    } // for-loopÀ» µ¹¸é¼­ ºñ¿ëÀÏ ´õÇØ°¥°Çµ¥ Áßº¹¾øÀÌ ´õÇÏ±âÀ§ÇØ 
-      // ÇÑ ¹ø °è»êÇÑ ´ëÇ¥³ëµåÀÇ cost°ªÀ» -1·Î ¹Ù²ãÁØ´Ù   
+    } // for-loopì„ ëŒë©´ì„œ ë¹„ìš©ì¼ ë”í•´ê°ˆê±´ë° ì¤‘ë³µì—†ì´ ë”í•˜ê¸°ìœ„í•´ 
+      // í•œ ë²ˆ ê³„ì‚°í•œ ëŒ€í‘œë…¸ë“œì˜ costê°’ì„ -1ë¡œ ë°”ê¿”ì¤€ë‹¤   
     if (b_young <= K) {
         printf("%d\n", b_young);
     }
