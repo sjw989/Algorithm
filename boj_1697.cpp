@@ -10,12 +10,12 @@ array<int, 100001> visit = { 0 };
 int main() {
 	cin >> N >> K;
 	queue<int> soobin;
-	soobin.push(N); // ½ÃÀÛ ÁÂÇ¥
+	soobin.push(N); // ì‹œì‘ ì¢Œí‘œ
 	visit[N] = 1;
 	int count = 0;
-	int seg_count = 1; // ÃÊ±â°ª 1
+	int seg_count = 1; // ì´ˆê¸°ê°’ 1
 	while (!soobin.empty()) {
-		int seg = 0; // °¢ Ãş¸¶´Ù ´ÙÀ½ ÃşÀ¸·Î ÀÌ¾îÁú ¼ö ÀÖ´Â segmentÀÇ °³¼ö
+		int seg = 0; // ê° ì¸µë§ˆë‹¤ ë‹¤ìŒ ì¸µìœ¼ë¡œ ì´ì–´ì§ˆ ìˆ˜ ìˆëŠ” segmentì˜ ê°œìˆ˜
 		for (int i = 0; i < seg_count; i++) {
 			int nod = soobin.front();
 			if (nod == K) {
