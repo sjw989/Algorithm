@@ -3,10 +3,9 @@
 #include <array>
 using namespace std;
 
-int N; // Áı »çÀÌÁî
-int cnt;  // °³¼ö
+int N; // ì§‘ ì‚¬ì´ì¦ˆ
+int cnt;  // ê°œìˆ˜
 array<array<int, 17>, 17> home;
-array<array<array<int, 17>, 17>, 3> dp;
 
 void input() {
 	//ifstream in("test.txt");
@@ -26,42 +25,42 @@ void dfs(int row, int col, int state) {
 		return ;
 	}
 	switch (state) {		
-		case 0: // ÇöÀç ÆÄÀÌÇÁ°¡ °¡·Î·Î ³õÀÎ °æ¿ì												
-			if (dp[state][row][col + 1] == 0) {
-				if (col + 1 <= N && home[row][col + 1] == 0) { // °¡·Î ÁøÇà														
-					dfs(row, col + 1, 0);					
-				}
+		case 0: // í˜„ì¬ íŒŒì´í”„ê°€ ê°€ë¡œë¡œ ë†“ì¸ ê²½ìš°												
+
+			if (col + 1 <= N && home[row][col + 1] == 0) { // ê°€ë¡œ ì§„í–‰														
+				dfs(row, col + 1, 0);					
 			}
+			
 						
 			if (row + 1 <= N && col + 1 <= N && home[row + 1][col + 1] == 0
-				&& home[row][col + 1] == 0 && home[row + 1][col] == 0) { // ´ë°¢¼± ÁøÇà
+				&& home[row][col + 1] == 0 && home[row + 1][col] == 0) { // ëŒ€ê°ì„  ì§„í–‰
 				dfs(row + 1, col + 1, 2);				
 			}
 			
 			break;
-		case 1: // ÇöÀç ÆÄÀÌÇÁ°¡ ¼¼·Î·Î ³õÀÎ °æ¿ì
+		case 1: // í˜„ì¬ íŒŒì´í”„ê°€ ì„¸ë¡œë¡œ ë†“ì¸ ê²½ìš°
 
-			if (row + 1 <= N && home[row + 1][col] == 0) { // ¼¼·Î ÁøÇà
+			if (row + 1 <= N && home[row + 1][col] == 0) { // ì„¸ë¡œ ì§„í–‰
 				dfs(row + 1, col, 1); {
 				}
 				if (row + 1 <= N && col + 1 <= N && home[row + 1][col + 1] == 0
-					&& home[row][col + 1] == 0 && home[row + 1][col] == 0) { // ´ë°¢¼± ÁøÇà
+					&& home[row][col + 1] == 0 && home[row + 1][col] == 0) { // ëŒ€ê°ì„  ì§„í–‰
 					dfs(row + 1, col + 1, 2);
 				}
 				break;
 
 		case 2:
 
-			if (col + 1 <= N && home[row][col + 1] == 0) { // °¡·Î ÁøÇà
+			if (col + 1 <= N && home[row][col + 1] == 0) { // ê°€ë¡œ ì§„í–‰
 				dfs(row, col + 1, 0);
 			}
 
-			if (row + 1 <= N && home[row + 1][col] == 0) { // ¼¼·Î ÁøÇà
+			if (row + 1 <= N && home[row + 1][col] == 0) { // ì„¸ë¡œ ì§„í–‰
 
 				dfs(row + 1, col, 1);
 			}
 			if (row + 1 <= N && col + 1 <= N && home[row + 1][col + 1] == 0
-				&& home[row][col + 1] == 0 && home[row + 1][col] == 0) { // ´ë°¢¼± ÁøÇà				
+				&& home[row][col + 1] == 0 && home[row + 1][col] == 0) { // ëŒ€ê°ì„  ì§„í–‰				
 				dfs(row + 1, col + 1, 2);
 			}
 			break;
