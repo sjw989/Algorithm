@@ -5,7 +5,7 @@
 #define pii pair<int,int>
 using namespace std;
 
-int N; // È¸ÀÇ °³¼ö
+int N; // íšŒì˜ ê°œìˆ˜
 int ans;
 vector<pii> meeting;
 
