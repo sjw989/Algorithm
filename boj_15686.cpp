@@ -2,17 +2,16 @@
 #include <fstream>
 #include <vector>
 #include <array>
-#include <bitset>
 #include <queue>
 #define pii pair<int,int>
 using namespace std;
 
 int minimum = 987654321;
-int N, M; // ¸¶À» Å©±â, Ä¡Å²ÁıÀÇ ÃÖ´ë °³¼ö
+int N, M; // ë§ˆì„ í¬ê¸°, ì¹˜í‚¨ì§‘ì˜ ìµœëŒ€ ê°œìˆ˜
 array<array<int, 51>, 51> village;
 array<array<int, 51>, 51> dist;
-vector<pii> chicken; // °¢ Ä¡Å²ÁıÀÇ À§Ä¡°¡ µé¾îÀÖÀ½
-vector<bool> can_chicken; // °¢ Ä¡Å²ÁıÀÇ À§Ä¡°¡ µé¾îÀÖÀ½
+vector<pii> chicken; // ê° ì¹˜í‚¨ì§‘ì˜ ìœ„ì¹˜ê°€ ë“¤ì–´ìˆìŒ
+vector<bool> can_chicken; // ì¹˜í‚¨ì§‘ì˜ íì—… í‘œì‹œ
 vector<pii> home;
 
 void input() {
@@ -22,11 +21,11 @@ void input() {
 		for (int j = 1; j <= N; j++) {
 			cin >> village[i][j];
 			if (village[i][j] == 2) {
-				chicken.push_back(make_pair(i, j)); // Ä¡Å²Áı ÁÂÇ¥ ¸ğÀ½
+				chicken.push_back(make_pair(i, j)); // ì¹˜í‚¨ì§‘ ì¢Œí‘œ ëª¨ìŒ
 				can_chicken.push_back(true);
 			}
 			else if (village[i][j] == 1) {
-				home.push_back(make_pair(i, j)); // Áı ÁÂÇ¥ ¸ğÀ½
+				home.push_back(make_pair(i, j)); // ì§‘ ì¢Œí‘œ ëª¨ìŒ
 			}
 			dist[i][j] = 987654321;
 		}
@@ -53,8 +52,8 @@ void dfs(int start) {
 		dist[home[i].first][home[i].second] = 987654321;
 	}
 	for (int i = start; i < chicken.size(); i++) {
-		pii remove_chicken = chicken[i]; // Æó¾÷½ÃÅ°·Á°í ÇÏ´Â Ä¡Å²Áı
-		can_chicken[i] = false; // Æó¾÷Ã³¸®
+		pii remove_chicken = chicken[i]; // íì—…ì‹œí‚¤ë ¤ê³  í•˜ëŠ” ì¹˜í‚¨ì§‘
+		can_chicken[i] = false; // íì—…ì²˜ë¦¬
 
 		for (int i = 0; i < home.size(); i++) {
 			for (int j = 0; j < chicken.size(); j++) {
@@ -63,7 +62,7 @@ void dfs(int start) {
 					dist[home[i].first][home[i].second] = min(dist[home[i].first][home[i].second], d);					
 				}				
 			}
-		} // Æó¾÷ ¾È ÇÑ Ä¡Å²Áı¸¸ Å½»öÇØ¼­ °¢ Áı¸¶´Ù Ä¡Å²°Å¸® ÃøÁ¤
+		} // íì—… ì•ˆ í•œ ì¹˜í‚¨ì§‘ë§Œ íƒìƒ‰í•´ì„œ ê° ì§‘ë§ˆë‹¤ ì¹˜í‚¨ê±°ë¦¬ ì¸¡ì •
 
 		int n = 0;
 		for (int i = 0; i < can_chicken.size(); i++) {
@@ -73,7 +72,7 @@ void dfs(int start) {
 		}
 		if (M == n) {			
 			int d = get_chickenDistance();
-			minimum = min(minimum, d); // µµ½ÃÀÇ Ä¡Å²°Å¸® update		
+			minimum = min(minimum, d); // ë„ì‹œì˜ ì¹˜í‚¨ê±°ë¦¬ update		
 		}				
 		if (i + 1 <= chicken.size()) {
 			dfs(i + 1); // dfs
@@ -99,7 +98,7 @@ int main() {
 	}
 	if (M == n) {
 		int d = get_chickenDistance();
-		minimum = min(minimum, d); // µµ½ÃÀÇ Ä¡Å²°Å¸® update		
+		minimum = min(minimum, d); // ë„ì‹œì˜ ì¹˜í‚¨ê±°ë¦¬ update		
 	}	
 	dfs(0);
 	cout << minimum;	
