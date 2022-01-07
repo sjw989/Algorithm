@@ -4,9 +4,9 @@
 #include <vector>
 using namespace std;
 
-int N; // ³ª¹«ÀÇ ¼ö
-int M; // »ó±ÙÀÌ°¡ °¡Á®°¡·Á°í ÇÏ´Â ³ª¹«ÀÇ ±æÀÌ
-long long ans; // Àı´Ü±âÀÇ ÃÖ´ë ³ôÀÌ
+int N; // ë‚˜ë¬´ì˜ ìˆ˜
+int M; // ìƒê·¼ì´ê°€ ê°€ì ¸ê°€ë ¤ê³  í•˜ëŠ” ë‚˜ë¬´ì˜ ê¸¸ì´
+int ans; // ì ˆë‹¨ê¸°ì˜ ìµœëŒ€ ë†’ì´
 vector<int> tree;
 
 void input() {
@@ -19,31 +19,31 @@ void input() {
 	}
 }
 
-long long get_tree(long long h) {
+long long get_tree(int h) {
 	long long l = 0;
-	for (long long t : tree) {		
+	for (long long t : tree) {
 		long long gap = t - h;
 		if (gap >= 0) {
 			l += gap;
-		}		
+		}
 	}
 	return l;
 }
 
 void solve() {
-	sort(tree.begin(), tree.end()); // ³ª¹«ÀÇ ÃÖ°í³ôÀÌ¸¦ ¾ò±â À§ÇØ
-	long long lower = 0;
-	long long upper = tree[N - 1];
+	sort(tree.begin(), tree.end()); // ë‚˜ë¬´ì˜ ìµœê³ ë†’ì´ë¥¼ ì–»ê¸° ìœ„í•´
+	int lower = 0;
+	int upper = tree[N - 1];
 	while (lower < upper) {
-		long long mid = (lower + upper) / 2;				
-		if (get_tree(mid) >= M) {			
+		int mid = (lower + upper) / 2;
+		if (get_tree(mid) >= M) {
 			ans = max(ans, mid);
 			lower = mid + 1;
 		}
 		else {
 			upper = mid;
 		}
-	}	
+	}
 }
 
 void print() {
