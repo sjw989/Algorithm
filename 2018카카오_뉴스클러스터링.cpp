@@ -8,20 +8,20 @@ using namespace std;
 
 
 bool is_alphabet(char c) {
-    // ¼Ò¹®ÀÚ : 97 ~ 122
-    // ´ë¹®ÀÚ : 65 ~ 90
+    // ì†Œë¬¸ìž : 97 ~ 122
+    // ëŒ€ë¬¸ìž : 65 ~ 90
     if (((int)c >= 97 && (int)c <= 122) ||
         ((int)c >= 65 && (int)c <= 90)) {
-        return true; // ¾Æ½ºÅ°ÄÚµå·Î È¯»êÇØ¼­ ´ë¹®ÀÚ or ¼Ò¹®ÀÚÀÎ °æ¿ì
+        return true; // ì•„ìŠ¤í‚¤ì½”ë“œë¡œ í™˜ì‚°í•´ì„œ ëŒ€ë¬¸ìž or ì†Œë¬¸ìžì¸ ê²½ìš°
     }
     return false;
 }
 
 vector<pii> get_set(string str) {
-    vector<pii> string_set; // ´ÙÁßÁýÇÕ
+    vector<pii> string_set; // ë‹¤ì¤‘ì§‘í•©
     int n = str.size();
     for (int i = 0; i < n - 1; i++) {
-        if (is_alphabet(str[i]) && is_alphabet(str[i + 1])) { // µÑ´Ù ¾ËÆÄºªÀÎ°æ¿ì
+        if (is_alphabet(str[i]) && is_alphabet(str[i + 1])) { // ë‘˜ë‹¤ ì•ŒíŒŒë²³ì¸ê²½ìš°
             string_set.push_back(make_pair((int)str[i], (int)str[i + 1]));
         }
     }
@@ -49,36 +49,24 @@ bool is_same_alphabet(pii str1, pii str2) {
 pii get_union_intersect(vector<pii> set1, vector<pii> set2) {
     // aa aa ab cc dd
     // aa ad aa bb cc
-    for (int i = 0; i < set1.size(); i++) {
-        cout << (char)set1[i].first << (char)set1[i].second <<  " " ;
-    }
-    cout << endl;
-    for (int i = 0; i < set2.size(); i++) {
-        cout << (char)set2[i].first << (char)set2[i].second << " ";
-    }
-    cout << endl;
+    
     int num_of_intersection = 0;
     int num_of_union = 0;    
     for (int i = 0; i < set1.size(); i++) {
         pii sub_str1 = set1[i];
         for (int j = 0; j < set2.size(); j++) {
             pii sub_str2 = set2[j];
-            if (set2[j].first != -1 && // °°Àº ¹®ÀÚ¿­À» Ã£°í, »ç¿ëÇÑÀû ¾øÀ¸¸é                
+            if (set2[j].first != -1 && // ê°™ì€ ë¬¸ìžì—´ì„ ì°¾ê³ , ì‚¬ìš©í•œì  ì—†ìœ¼ë©´                
                 is_same_alphabet(sub_str1, sub_str2) ) {
-                cout << (char)sub_str1.first << (char)sub_str1.second << " ";
-                cout << endl;
-                cout << (char)sub_str2.first << (char)sub_str2.second << " ";
-                cout << endl;
-                set2[j].first = -1; // Áßº¹¹æÁö¸¦ À§ÇØ disable°ª -1 ¼³Á¤                
-                num_of_intersection++;
-                break;
+                    set2[j].first = -1; // ì¤‘ë³µë°©ì§€ë¥¼ ìœ„í•´ disableê°’ -1 ì„¤ì •                
+                    num_of_intersection++;
+                    break;
             }
         }
     }    
     num_of_union = set1.size() + set2.size() - num_of_intersection;
-    // ÇÕÁýÇÕÀÇ °³¼ö = ÁýÇÕ1 + ÁýÇÕ2 - ±³ÁýÇÕ    
+    // í•©ì§‘í•©ì˜ ê°œìˆ˜ = ì§‘í•©1 + ì§‘í•©2 - êµì§‘í•©    
 
-    cout << num_of_intersection << " " << num_of_union << endl;
     return make_pair(num_of_intersection, num_of_union);
 }
 
@@ -108,7 +96,6 @@ int main() {
     // CR RS SH HV
     string str1 = "HGNHU";    
     string str2 = "CRSHV";
-    int ans = solution(str1, str2);        
-   
+    int ans = solution(str1, str2);         
     cout << ans;        
 }
