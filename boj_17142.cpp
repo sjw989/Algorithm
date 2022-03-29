@@ -65,50 +65,36 @@ int bfs(vector<pii> virus) {
 		visit[v.first][v.second] = 1;
 		q.push(v);
 	}	
-	int cnt = 0; // 빈칸 개수 카운팅
-	for (int i = 1; i <= N; i++) {
-		for (int j = 1; j <= N; j++) {
-			if (new_board[i][j] == 0) {
-				cnt++;
-			}
-		}
-	}
-	if (cnt == 0) { // 빈칸이 없으면 탈출						
-		for (int i = 1; i <= N; i++) {
-			for (int j = 1; j <= N; j++) {
-				t = max(t, visit[i][j]);
-			}
-		}
-		return t;
-	}
-	cnt = 0; // 빈칸의 개수
+	if(cnt_zero == 0){
+          return 1;
+        }
+	int cnt = 0; // 빈칸의 개수
 	while (!q.empty()) {
-			pii cur = q.front();
-			q.pop();
-			for (int i = 0; i < 4; i++) {
-				int nr = cur.first + drow[i];
-				int nc = cur.second + dcol[i];
-
-				if (nr >= 1 && nr <= N && nc >= 1 && nc <= N && visit[nr][nc] == 0) {					
-					if (new_board[nr][nc] != 2 && new_board[nr][nc] != 1) { // 활성 바이러스가 있는곳 & 벽이 아니면
-						if (new_board[nr][nc] == 0) {
-							cnt++;
-						}
-						new_board[nr][nc] = 2; // 활성바이러스를 넣음
-						visit[nr][nc] = visit[cur.first][cur.second] + 1;						
-						q.push(mp(nr, nc));
-					}										
-				}
+		pii cur = q.front();
+		q.pop();
+		for (int i = 0; i < 4; i++) {
+			int nr = cur.first + drow[i];
+			int nc = cur.second + dcol[i];
+			if (nr >= 1 && nr <= N && nc >= 1 && nc <= N && visit[nr][nc] == 0) {					
+				if (new_board[nr][nc] != 2 && new_board[nr][nc] != 1) { // 활성 바이러스가 있는곳 & 벽이 아니면
+					if (new_board[nr][nc] == 0) {
+						cnt++;
+					}
+					new_board[nr][nc] = 2; // 활성바이러스를 넣음
+					visit[nr][nc] = visit[cur.first][cur.second] + 1;						
+					q.push(mp(nr, nc));
+				}										
 			}
-            if (cnt == cnt_zero) { // 더이상 채울 칸이 없다는 의미
-			    for (int i = 1; i <= N; i++) {
-			    	for (int j = 1; j <= N; j++) {
-			    		t = max(t, visit[i][j]);
-			    	}
-			    }
-			    break;
-		    }
-		}				
+		}
+                if (cnt == cnt_zero) { // 더이상 채울 칸이 없다는 의미
+			 for (int i = 1; i <= N; i++) {
+			     for (int j = 1; j <= N; j++) {
+					t = max(t, visit[i][j]);
+			     }
+			 }
+			 break;
+		}
+	}				
 
 	return t;
 }
