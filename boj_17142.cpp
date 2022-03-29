@@ -9,7 +9,7 @@
 #define mp(a,b) make_pair(a,b)
 using namespace std;
 
-int N, M; // N x N, ¹ÙÀÌ·¯½º °³¼ö
+int N, M; // N x N, ë°”ì´ëŸ¬ìŠ¤ ê°œìˆ˜
 int ans= 987654321 ;
 int cnt_zero = 0;
 array<array<int, 51>, 51> board;
@@ -24,8 +24,8 @@ void input() {
 		for (int j = 1; j <= N; j++) {
 			cin >> board[i][j];
 			if (board[i][j] == 2) {
-				virus.push_back(mp(i, j)); // ¹ÙÀÌ·¯½º °¡´É À§Ä¡¸¦ ÀúÀåÇÏ°í
-				board[i][j] = -1; // -1·Î ¹Ù²ãÁÜ
+				virus.push_back(mp(i, j)); // ë°”ì´ëŸ¬ìŠ¤ ê°€ëŠ¥ ìœ„ì¹˜ë¥¼ ì €ì¥í•˜ê³ 
+				board[i][j] = -1; // -1ë¡œ ë°”ê¿”ì¤Œ
 			}	
 			if (board[i][j] == 0) {
 				cnt_zero++;
@@ -47,7 +47,7 @@ void get_virus_pos(int idx, vector<pii> set_virus) {
 
 void fill_virus(vector<pii> virus) {
 	for (auto v : virus) {
-		new_board[v.first][v.second] = 2; // 2ÀÌ¸é È°¼º¹ÙÀÌ·¯½º
+		new_board[v.first][v.second] = 2; // 2ì´ë©´ í™œì„±ë°”ì´ëŸ¬ìŠ¤
 	}
 }
 
@@ -65,7 +65,7 @@ int bfs(vector<pii> virus) {
 		visit[v.first][v.second] = 1;
 		q.push(v);
 	}	
-	int cnt = 0; // ºóÄ­ °³¼ö Ä«¿îÆÃ
+	int cnt = 0; // ë¹ˆì¹¸ ê°œìˆ˜ ì¹´ìš´íŒ…
 	for (int i = 1; i <= N; i++) {
 		for (int j = 1; j <= N; j++) {
 			if (new_board[i][j] == 0) {
@@ -73,7 +73,7 @@ int bfs(vector<pii> virus) {
 			}
 		}
 	}
-	if (cnt == 0) { // ºóÄ­ÀÌ ¾øÀ¸¸é Å»Ãâ						
+	if (cnt == 0) { // ë¹ˆì¹¸ì´ ì—†ìœ¼ë©´ íƒˆì¶œ						
 		for (int i = 1; i <= N; i++) {
 			for (int j = 1; j <= N; j++) {
 				t = max(t, visit[i][j]);
@@ -81,10 +81,8 @@ int bfs(vector<pii> virus) {
 		}
 		return t;
 	}
-	cnt = 0; // ºóÄ­ÀÇ °³¼ö
-	while (true) {
-		queue<pii> next_q;		
-		while (!q.empty()) {
+	cnt = 0; // ë¹ˆì¹¸ì˜ ê°œìˆ˜
+	while (!q.empty()) {
 			pii cur = q.front();
 			q.pop();
 			for (int i = 0; i < 4; i++) {
@@ -92,30 +90,25 @@ int bfs(vector<pii> virus) {
 				int nc = cur.second + dcol[i];
 
 				if (nr >= 1 && nr <= N && nc >= 1 && nc <= N && visit[nr][nc] == 0) {					
-					if (new_board[nr][nc] != 2 && new_board[nr][nc] != 1) { // È°¼º ¹ÙÀÌ·¯½º°¡ ÀÖ´Â°÷ & º®ÀÌ ¾Æ´Ï¸é
+					if (new_board[nr][nc] != 2 && new_board[nr][nc] != 1) { // í™œì„± ë°”ì´ëŸ¬ìŠ¤ê°€ ìˆëŠ”ê³³ & ë²½ì´ ì•„ë‹ˆë©´
 						if (new_board[nr][nc] == 0) {
 							cnt++;
 						}
-						new_board[nr][nc] = 2; // È°¼º¹ÙÀÌ·¯½º¸¦ ³ÖÀ½
+						new_board[nr][nc] = 2; // í™œì„±ë°”ì´ëŸ¬ìŠ¤ë¥¼ ë„£ìŒ
 						visit[nr][nc] = visit[cur.first][cur.second] + 1;						
-						next_q.push(mp(nr, nc));
+						q.push(mp(nr, nc));
 					}										
 				}
-			}			
-		}		
-		if (cnt == cnt_zero) { // ´õÀÌ»ó Ã¤¿ï Ä­ÀÌ ¾ø´Ù´Â ÀÇ¹Ì
-			for (int i = 1; i <= N; i++) {
-				for (int j = 1; j <= N; j++) {
-					t = max(t, visit[i][j]);
-				}
 			}
-			break;
-		}
-		if (next_q.size() == 0) {
-			break;
-		}
-		q = next_q;					
-	}	
+            if (cnt == cnt_zero) { // ë”ì´ìƒ ì±„ìš¸ ì¹¸ì´ ì—†ë‹¤ëŠ” ì˜ë¯¸
+			    for (int i = 1; i <= N; i++) {
+			    	for (int j = 1; j <= N; j++) {
+			    		t = max(t, visit[i][j]);
+			    	}
+			    }
+			    break;
+		    }
+		}				
 
 	return t;
 }
