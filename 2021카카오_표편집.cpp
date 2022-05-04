@@ -1,184 +1,152 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <stack>
-#define pci pair<char,int>
 using namespace std;
 
 
-typedef struct Row {
-	int num = 0; // Çà¹øÈ£
-	int init_num = 0; // ÃÊ±â ¹øÈ£ -> ³ªÁß¿¡ ºñ±³ÇÒ ¶§ »ç¿ë
-	Row* next = NULL; // ´ÙÀ½ Çà
-	Row* prev = NULL; // ÀÌÀü Çà
+typedef struct Row{
+    int key; // ì´ˆê¸° ë²ˆí˜¸
+    Row* prev; // ì´ì „ í–‰
+    Row* next; // ë‹¤ìŒ í–‰
 };
-
-typedef struct removed_row {	
-	Row* removed_row;
-	Row* removed_up;
-	Row* removed_down;
-};
-
-Row* head; // head
-Row* tail; // tail
-Row* cur; // ÇöÀç Çà
-Row* latest_remove; // °¡Àå ÃÖ±Ù¿¡ »èÁ¦µÈ Çà
-stack<removed_row> stk;
+Row* head; // ì œì¼ ì•
+Row* tail; // ì œì¼ ë
+Row* cur; // í˜„ì¬ í–‰
+stack<Row*> garbage; // ì‚­ì œëœ í–‰
 
 
-vector<pci> get_cmd(vector<string> cmd) {
-	vector<pci> my_cmd;
+string getSolution(int n) {
+    vector<int> num;
+    Row* cur = head;
+    while (!cur->next == NULL) {
+        num.push_back(cur->key);
+        cur = cur->next;
+    }
+    num.push_back(cur->key);
 
-	for (int i = 0; i < cmd.size(); i++) {		
-		if (cmd[i].size() < 2) { // 
-			my_cmd.push_back(make_pair(cmd[i][0], 0));
-		}
-		else {
-			my_cmd.push_back(make_pair(cmd[i][0], cmd[i][2]- '0'));
-		}		
-	}		
-	return my_cmd;
-	
+    string str = "";
+    int idx = 0;
+    for (int i = 0; i < n; i++) {
+        if (num[idx] == i) {
+            str += 'O';
+            idx++;
+        }
+        else {
+            str += 'X';
+        }
+    
+    }
+    return str;
+
 }
 
-void make_init(int n, int k) {
-	for (int i = 0; i < n; i++) {
-		Row* row = new Row;				
-		row->num = i;
-		row->init_num = i;
-		if (i == 0) { // head			
-			head = row;		
-			tail = row;						
-		}
-		else { // tail			
-			row->prev = tail;
-			tail->next = row;
-			tail = row;
-		}		
-		if (i == k) { // ½ÃÀÛ Çà ÀúÀå
-			cur = row;
-		}					
-	}
+void solve(char c, int cnt) {
+    switch (c) {
+        case 'U': {
+            for (int i = 0; i < cnt; i++) {
+                cur = cur->prev;
+            }
+            break;
+        }
+        case 'C': { // ì‚­ì œí•˜ê³  ì•„ë˜ í–‰ì„ ì„ íƒ, tailì´ë©´ ê·¸ prevë¥¼ ì„ íƒ
+            garbage.push(cur); // í˜„ì¬ í–‰ì„ ìŠ¤íƒì— ìŒ“ìŒ
+            if (cur == tail) { // í˜„ì¬ í–‰ì´ ê°€ì¥ ì•„ë˜í–‰ì¸ ê²½ìš°
+                cur->prev->next = NULL; // ì´ì „ í–‰ì˜ next ì—†ì• ì¤Œ
+                tail = cur->prev; // tail ì—…ë°ì´íŠ¸
+                cur = tail;
+            }
+            else if (cur == head){ // í˜„ì¬ í–‰ì´ ê°€ì¥ ìœ„ì¸ê²½ìš°
+                cur->next->prev = NULL;
+                head = cur->next;
+                cur = head;
+            }
+            else {
+                cur->prev->next = cur->next;
+                cur->next->prev = cur->prev;
+                cur = cur->next;
+            }
+            break;
+        }
+        case 'D': {
+            for (int i = 0; i < cnt; i++) {
+                if (cur->next != NULL) {
+                    cur = cur->next;
+                }
+            }
+            break;
+
+        }
+        case 'Z': {
+            Row* recovery = garbage.top();
+            garbage.pop();
+
+            if (recovery->prev == NULL) { // headê°€ ì‚­ì œëœ ê²½ìš°
+                head->prev = recovery;
+                head = recovery;
+            }
+            else if (recovery->next == NULL) { // tailì´ ì‚­ì œëœ ê²½ìš°
+                tail->next = recovery;
+                tail = recovery;
+            }
+            else { // ë‚˜ë¨¸ì§€ ê²½ìš°
+                recovery->prev->next = recovery;
+                recovery->next->prev = recovery;
+            }
+            break;
+        }
+
+    }
 }
 
-void renumbering() {
-	Row* row = head;
-	int i = 0;
-	while (row->next != NULL) {
-		row->num = i;
-		i++;
-		row = row->next;
-	}
-	tail->num = i;	
+string solution(int n, int k, vector<string> cmd) {
+    string answer = "";
+
+    for (int i = 0; i < n; i++) {
+        Row* r = new Row();
+        r->key = i;
+        if (i == 0) {
+            head = r;
+            tail = r;
+        }
+        else {
+            tail->next = r;
+            r->prev = tail;
+            tail = r;
+        }
+        if (i == k) {
+            cur = r;
+        }
+    }
+    for (int i = 0; i < cmd.size(); i++) { // ëª…ë ¹ì–´ ê°œìˆ˜ë§Œí¼ ë°˜ë³µ
+        string cur_cmd = cmd[i];
+        char c = cur_cmd[0];
+        int cnt = 0;
+        for (int j = 2; j < cur_cmd.size(); j++) {
+            cnt = (cnt * 10) + (cur_cmd[j] - '0');
+        }
+        solve(c, cnt);
+    }
+
+
+    answer = getSolution(n);
+    return answer;
 }
+int main() {
+    int n = 8; // ì²˜ìŒ í–‰ì˜ ê°œìˆ˜
+    int k = 2; // ì²˜ìŒ ì„ íƒëœ í–‰
+    vector<string> cmd = { "D 2","C","U 3","C","D 4","C","U 2","Z","Z","U 1","C" };
 
-// pair<char,int> 
-void solve(vector<pci> my_cmd) {
-	for (pci cmd : my_cmd) {				
-		switch (cmd.first) {
-			case 'D': // ¹ØÀ¸·Î ÀÌµ¿
-				for (int i = 0; i < cmd.second; i++) {
-					cur = cur->next;
-				}
-				break;			
-
-			case 'U': // À§·Î ÀÌµ¿
-				for (int i = 0; i < cmd.second; i++) {
-					cur = cur->prev;
-				}				
-				break;
-
-			case 'C': // »èÁ¦
-			{
-				removed_row rmr; // »èÁ¦µÈ ¾Öµé
-
-				if (cur == head) { // head°¡ »èÁ¦µÈ °æ¿ì					
-					rmr.removed_down = head->next;
-					rmr.removed_row = head;
-					rmr.removed_up = NULL;
-					head = cur->next;
-					cur = head;
-				}
-				else if (cur == tail) { // tailÀÌ »èÁ¦µÈ °æ¿ì
-					rmr.removed_up = tail->prev; // »èÁ¦µÈ Çà ÇÑ Ä­ À§¿¡´Â tailÀÇ prev
-					rmr.removed_row = tail;					
-					rmr.removed_down = NULL;
-					tail = cur->prev;		
-					tail->next = NULL;
-					cur = tail;
-				}
-
-				else { // ±× ¿Ü¿¡
-					cur->prev->next = cur->next; // ÇöÀç ÀÌÀüÀÇ ´ÙÀ½À» ÇöÀçÀÇ ´ÙÀ½À¸·Î
-					cur->next->prev = cur->prev; // ÇöÀç ´ÙÀ½ÀÇ ÀÌÀüÀ» ÇöÀçÀÇ ÀÌÀüÀ¸·Î					
-					rmr.removed_up = cur->prev;
-					rmr.removed_down = cur->next;					
-					rmr.removed_row = cur;
-					cur = cur->next;
-				}				
-				stk.push(rmr);				
-				renumbering(); // ¹øÈ£ ÀçºÎ¿©
-
-				break;
-			}
-
-			case 'Z': // µÇµ¹¸®±â							
-				removed_row rmr = stk.top();
-				stk.pop();
-		
-				if (rmr.removed_up == NULL) { // »èÁ¦´ç½Ã upÀÌ ¾ø´Ù -> head°¡ »èÁ¦µÈ°Í
-					head->prev = rmr.removed_row;
-					rmr.removed_row->next = head;
-					head = rmr.removed_row;
-
-				}
-				else if (rmr.removed_down == NULL) { // »èÁ¦´ç½Ã downÀÌ ¾ø´Ù -> tail ÀÌ »èÁ¦µÊ
-					tail->next = rmr.removed_row;
-					rmr.removed_row->prev = tail;					
-					tail = rmr.removed_row;
-					tail->next = NULL;
-					cout << "tail : " << tail->num << " " << tail->init_num << endl;
-				}
-				else {
-					rmr.removed_up->next = rmr.removed_row;
-					rmr.removed_row->prev = rmr.removed_up;
-					rmr.removed_row->next = rmr.removed_down;
-					rmr.removed_down->prev = rmr.removed_row;
-				}							
-				renumbering(); // ¹øÈ£ ÀçºÎ¿©						
-				break;
-		}			
-
-		
-		Row* test = new Row;
-		test = head;
-		while (test->next != NULL) {
-			if (test == cur) {
-				cout << "c" << " ";
-			}
-			cout << test->num << " " << test->init_num << endl;
-			test = test->next;
-		}
-		if (cur == tail) {
-			cout << "c" << " ";
-		}
-		cout << tail->num << " " << tail->init_num << endl;
-		cout << endl;
-	}
+    string ans = solution(n, k, cmd);
+    cout << ans;
 }
+/*
+U X - í˜„ì¬ í–‰ì—ì„œ Xë§Œí¼ ìœ„ì—ìˆëŠ” í–‰ ì„ íƒ
+D X - í˜„ì¬ í–‰ì—ì„œ X ë§Œí¼ ì•„ë˜ì—ìˆëŠ” í–‰ ì„ íƒ
+C - í˜„ì¬ í–‰ì„ ì‚­ì œ, ë°”ë¡œ ì•„ë˜í–‰ì„ ì„ íƒ
+    -> ê°€ì¥ ë§ˆì§€ë§‰ í–‰ì¸ ê²½ìš° ë°”ë¡œ ìœ—í–‰ì„ ì„ íƒ
+Z - ê°€ì¥ ìµœê·¼ì— ì‚­ì œëœ í–‰ì„ ë³µêµ¬, í˜„ì¬ ì„ íƒëœ í–‰ì€ ë³€í•˜ì§€ì•ŠìŒ
 
 
-string get_result(int n) {	
-	string result;
-	return result;
-}
 
-int main() {	
-	int n = 8; // ÃÊ±â Çà °³¼ö
-	int k = 2; // Ã³À½¿¡ ¼±ÅÃµÈ ÇàÀÇ À§Ä¡(Çà¹øÈ£)
-	vector<string> cmd = { "D 12","C","U 3","C","D 4","C","U 2","Z","Z" }; // Ä¿¸Çµå	
-	vector<pci> my_cmd = get_cmd(cmd);
-	make_init(n,k);
-	solve(my_cmd);
-	string result = get_result(n);		
-	cout << result << endl;
-}
+*/
