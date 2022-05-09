@@ -29,33 +29,33 @@ bool solve() {
 		pii cur = people[i];
 		for (int j = i + 1; j < people.size(); j++) {
 			pii next = people[j];
-			if (get_distance(cur, next) <= 2) { // ¸ÇÇÏÆ° °Å¸®°¡ 2 ÀÌÇÏÀÎ °æ¿ì
-				if (cur.first == next.first) { // µÎ »ç¶÷ÀÇ row°¡ °°Àº °æ¿ì
+			if (get_distance(cur, next) <= 2) { // ë§¨í•˜íŠ¼ ê±°ë¦¬ê°€ 2 ì´í•˜ì¸ ê²½ìš°
+				if (cur.first == next.first) { // ë‘ ì‚¬ëžŒì˜ rowê°€ ê°™ì€ ê²½ìš°
 					if (abs(cur.second - next.second) == 1|| 
 						room[cur.first][(cur.second + next.second) / 2] == 'O') { 
-						// ¹Ù·Î ¿·ÀÚ¸® or ±× »çÀÌ°¡ ºóÄ­ÀÎ °æ¿ì
-						return false; // °Å¸®µÎ±â ½ÇÆÐ
+						// ë°”ë¡œ ì˜†ìžë¦¬ or ê·¸ ì‚¬ì´ê°€ ë¹ˆì¹¸ì¸ ê²½ìš°
+						return false; // ê±°ë¦¬ë‘ê¸° ì‹¤íŒ¨
 					}
 				}
-				else if (cur.second == next.second) { // µÎ »ç¶÷ÀÇ colÀÌ °°Àº °æ¿ì
+				else if (cur.second == next.second) { // ë‘ ì‚¬ëžŒì˜ colì´ ê°™ì€ ê²½ìš°
 					if (abs(cur.first - next.first) == 1 ||
 						room[(cur.first + next.first) / 2][cur.second] == 'O') {
-						// ¹Ù·Î À§¾Æ·¡ ÀÚ¸® or ±× »çÀÌ°¡ ºóÄ­ÀÎ °æ¿ì						
-						return false; // °Å¸®µÎ±â ½ÇÆÐ
+						// ë°”ë¡œ ìœ„ì•„ëž˜ ìžë¦¬ or ê·¸ ì‚¬ì´ê°€ ë¹ˆì¹¸ì¸ ê²½ìš°						
+						return false; // ê±°ë¦¬ë‘ê¸° ì‹¤íŒ¨
 					}
 				}
 
-				else { // ´ë°¢¼±¿¡ À§Ä¡ÇÑ °æ¿ì
-					if (cur.second < next.second) { // 11-5 ´ë°¢¼±À¸·Î ¾ÉÀº °æ¿ì
+				else { // ëŒ€ê°ì„ ì— ìœ„ì¹˜í•œ ê²½ìš°
+					if (cur.second < next.second) { // 11-5 ëŒ€ê°ì„ ìœ¼ë¡œ ì•‰ì€ ê²½ìš°
 						if (room[cur.first][cur.second + 1] == 'O' || room[cur.first + 1][cur.second] == 'O') {
-							// curÀÇ ¿· or ¾Æ·¡¿¡ ºóÄ­ÀÎ °æ¿ì							
-							return false; // ½ÇÆÐ
+							// curì˜ ì˜† or ì•„ëž˜ì— ë¹ˆì¹¸ì¸ ê²½ìš°							
+							return false; // ì‹¤íŒ¨
 						}
 					}
-					else { // 1 - 7 ´ë°¢¼±À¸·Î ¾ÉÀº °æ¿ì
+					else { // 1 - 7 ëŒ€ê°ì„ ìœ¼ë¡œ ì•‰ì€ ê²½ìš°
 						if (room[cur.first][cur.second - 1] == 'O' || room[cur.first + 1][cur.second] == 'O') {
-							// curÀÇ ¿· or ¾Æ·¡¿¡ ºóÄ­ÀÎ °æ¿ì							
-							return false; // ½ÇÆÐ
+							// curì˜ ì˜† or ì•„ëž˜ì— ë¹ˆì¹¸ì¸ ê²½ìš°							
+							return false; // ì‹¤íŒ¨
 						}
 					}
 				}
