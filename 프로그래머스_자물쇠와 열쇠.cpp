@@ -68,9 +68,9 @@ bool solution(vector<vector<int>> key, vector<vector<int>> lock) {
                     pii tp = test_point[i];                 
                     if (tp.first >= 0 && tp.first < lock.size() && tp.second >= 0 && tp.second < lock.size()) {
                         if (lock[tp.first][tp.second] == 0) {
-                            cnt++; // ¿­¼èÀÇ µ¹±â¿Í ÀÚ¹°¼èÀÇ È¨ÀÇ °³¼ö
+                            cnt++; // ì—´ì‡ ì˜ ëŒê¸°ì™€ ìžë¬¼ì‡ ì˜ í™ˆì˜ ê°œìˆ˜
                         }
-                        else { // ¿­¼èÀÇ µ¹±â¿Í ÀÚ¹°¼èÀÇ µ¹±â°¡ ¸¸³­ °³¼ö
+                        else { // ì—´ì‡ ì˜ ëŒê¸°ì™€ ìžë¬¼ì‡ ì˜ ëŒê¸°ê°€ ë§Œë‚œ ê°œìˆ˜
                             no++;
                         }
                     }
