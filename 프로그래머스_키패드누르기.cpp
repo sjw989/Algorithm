@@ -37,21 +37,21 @@ int main() {
 	vector<int> numbers = { 7, 0, 8, 2, 8, 3, 1, 5, 7, 6, 2 };
 	string hand = "left"; // input
 
-	get_position(); // ÁÂÇ¥¹İÈ¯
+	get_position(); // ì¢Œí‘œë°˜í™˜
 
-	string answer = ""; // Á¤´ä string
+	string answer = ""; // ì •ë‹µ string
 	pii cur_left = make_pair(4,1), cur_right = make_pair(4, 3);
 	for (int cur_n : numbers) {
-		if (cur_n == 1 || cur_n == 4 || cur_n == 7) { // ¿Ş¼Õ ÀÌµ¿
+		if (cur_n == 1 || cur_n == 4 || cur_n == 7) { // ì™¼ì† ì´ë™
 			answer += "L";			
 			cur_left = position[cur_n];			
 		}
-		else if (cur_n == 3 || cur_n == 6 || cur_n == 9) { // ¿À¸¥¼Õ ÀÌµ¿
+		else if (cur_n == 3 || cur_n == 6 || cur_n == 9) { // ì˜¤ë¥¸ì† ì´ë™
 			answer += "R";
 			cur_right = position[cur_n];
 		}
-		else if (cur_n == 2 || cur_n == 5 || cur_n == 8 || cur_n == 0) { // °¡¿îµ¥ ¹øÈ£ÀÎ °æ¿ì
-			string s = get_hand(hand, position[cur_n], cur_left, cur_right); // ¾î´À ¼Õ »ç¿ëÇÒÁö °í¸£±â
+		else if (cur_n == 2 || cur_n == 5 || cur_n == 8 || cur_n == 0) { // ê°€ìš´ë° ë²ˆí˜¸ì¸ ê²½ìš°
+			string s = get_hand(hand, position[cur_n], cur_left, cur_right); // ì–´ëŠ ì† ì‚¬ìš©í• ì§€ ê³ ë¥´ê¸°
 			if (s == "right") {	
 				answer += "R";		
 				cur_right = position[cur_n];
