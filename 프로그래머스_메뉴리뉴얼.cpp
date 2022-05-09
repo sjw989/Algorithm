@@ -16,7 +16,7 @@ void solve(string s) {
     int cnt = 0;    
     for (vector<string> sub_s : sub_str) {
         auto it = find(sub_s.begin(), sub_s.end(), s);
-        if (it != sub_s.end()) { // º¤ÅÍ ³»¿¡ Á¸ÀçÇÑ´Ù¸é
+        if (it != sub_s.end()) { // ë²¡í„° ë‚´ì— ì¡´ì¬í•œë‹¤ë©´
             cnt++;
         }
     }
@@ -108,7 +108,7 @@ int main() {
 
 
 /*
-1. orderÀÇ ¸ğµç Á¶ÇÕ ÀúÀå
+1. orderì˜ ëª¨ë“  ì¡°í•© ì €ì¥
 2. for order
         for 
 
